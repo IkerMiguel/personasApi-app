@@ -50,9 +50,16 @@ class ComunaController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        $comuna = Comuna::find($id);
+        if(is_null($comuna)){
+            return abort(404);
+        }
+        $municipios = DB::table('tb_municipio')
+            ->orderBy('muni_nomb')
+            ->get();
+        return json_encode(['comuna'=>$comuna,'municipios'=>$municipios]);
     }
 
     /**
