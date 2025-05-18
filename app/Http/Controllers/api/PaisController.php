@@ -61,9 +61,30 @@ class PaisController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $validate = Validator::make($request->all(), [
+            'pais_codi' => ['required', 'max:3'],
+            'pais_nomb' => ['required', 'max:52'],
+            'pais_capi' => ['nullable', 'numeric']
+        ]);
+
+        if ($validate->fails()) {
+            return response()->json([
+                'msg' => 'Se produjo un error en la validación de la información.',
+                'statusCode' => 400
+            ]);
+        }
+        $pais = Pais::find($id);
+        if(is_null($pais)){
+            return abort(404);
+        }
+        $pais->pais_codi = strtoupper($request->pais_codi);
+        $pais->pais_nomb = $request->pais_nomb;
+        $pais->pais_capi = $request->pais_capi;
+        $pais->save();
+
+        return response()->json(['pais' => $pais]);
     }
 
     /**
