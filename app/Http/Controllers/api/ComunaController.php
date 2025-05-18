@@ -5,7 +5,7 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Comuna;
-use Illuminate\support\Facades\DB;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class ComunaController extends Controller
@@ -27,7 +27,24 @@ class ComunaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validate = Validator::make($request->all(),[
+            'comu_nomb' => ['required', 'max:30', 'unique' ],
+            'muni_codi' => ['required','numeric', 'min:1']
+        ]);
+        if ($validate->fails()){
+            return response()->json([
+                'msg' => 'Se produjo un error en la validación de la información.',
+                'statusCode' => 400
+            ]);
+        }
+
+        $comuna = new Comuna();
+
+        $comuna->comu_nomb = $request->comu_nomb;
+        $comuna->muni_codi = $request->muni_codi;
+        $comuna->save();
+
+        return json_encode(['comuna'=>$comuna]);
     }
 
     /**
