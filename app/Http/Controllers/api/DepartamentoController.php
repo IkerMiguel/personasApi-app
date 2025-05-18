@@ -27,7 +27,21 @@ class DepartamentoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validate = Validator::make($request->all(),[
+            'depa_nomb' => ['required', 'max:30'],
+            'pais_codi' => ['required', 'min:1']
+        ]);
+        if ($validate->fails()){
+            return response()->json([
+                'msg' => 'Se produjo un error en la validación de la información.',
+                'statusCode' => 400
+            ]);
+        }
+        $departamento = new Departamento();
+
+        $departamento->depa_nomb = $request->depa_nomb;
+        $departamento->pais_codi = $request->pais_codi;
+        $departamento->save();
     }
 
     /**
