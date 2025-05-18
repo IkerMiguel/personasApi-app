@@ -17,3 +17,4 @@ Route::put('/comunas/{comuna}', [ComunaController::class, 'update'])->name('comu
 
 Route::post('/municipios', [MunicipioController::class, 'store'])->name('municipios.store');
 Route::get('municipios', [MunicipioController::class, 'index'])->name('municipios');
+Route::get('/municipios/{municipio}', [MunicipioController::class, 'show'])->name('municipios.show');

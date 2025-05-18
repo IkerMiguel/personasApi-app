@@ -51,9 +51,16 @@ class MunicipioController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        $municipio = Municipio::find($id);
+        if(is_null($municipio)){
+            return abort(404);
+        }
+        $departamentos = DB::table('tb_departamento')
+            ->orderBy('depa_nomb')
+            ->get();
+        return json_encode(['municipio'=> $municipio, 'departamentos'=> $departamentos]);
     }
 
     /**
