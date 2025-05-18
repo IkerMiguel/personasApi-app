@@ -66,9 +66,28 @@ class MunicipioController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $validate = Validator::make($request->all(),[
+            'muni_nomb' => ['required', 'max:30'],
+            'depa_codi' => ['required', 'numeric', 'min:1']
+        ]);
+        if($validate->fails()){
+            return response()->json([
+                'msg' => 'Se produjo un error en la validación de la información.',
+                'statusCode' => 400
+            ]);
+        }
+        $municipio = Municipio::find($id);
+        if(is_null($municipio)){
+            return abort(404);
+        }
+
+        $municipio->muni_nomb = $request->muni_nomb;
+        $municipio->depa_codi = $request->depa_codi;
+        $municipio->save();
+
+        return json_encode(['municipio'=>$municipio]);
     }
 
     /**
