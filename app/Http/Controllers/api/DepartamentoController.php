@@ -62,9 +62,27 @@ class DepartamentoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $validate = Validator::make($request->all(),[
+            'depa_nomb' => ['required', 'max:30'],
+            'pais_codi' => ['required','min:1']
+        ]);
+        if ($validate->fails()){
+            return response()->json([
+                'msg' => 'Se produjo un error en la validación de la información.',
+                'statusCode' => 400
+            ]);
+        }
+        $departamento = Departamento::find($id);
+        if(is_null($departamento)){
+            return abort(404);
+        }
+        $departamento->depa_nomb = $request->depa_nomb;
+        $departamento->pais_codi = $request->pais_codi;
+        $departamento->save();
+
+        return json_encode(['departamento'=>$departamento]);
     }
 
     /**
