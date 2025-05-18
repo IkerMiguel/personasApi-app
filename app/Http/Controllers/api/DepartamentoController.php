@@ -47,9 +47,16 @@ class DepartamentoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        $departamento = Departamento::find($id);
+        if(is_null($departamento)){
+            return abort(404);
+        }
+        $paises = DB::table('tb_pais')
+            ->orderBy('pais_nomb')
+            ->get();
+        return json_encode(['departamento'=>$departamento, 'paises'=>$paises]);
     }
 
     /**
