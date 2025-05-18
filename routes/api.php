@@ -31,3 +31,4 @@ Route::put('/departamentos/{departamento}', [DepartamentoController::class, 'upd
 
 Route::post('/paises', [PaisController::class, 'store'])->name('paises.store');
 Route::get('/paises', [PaisController::class, 'index'])->name('paises.index');
+Route::get('/paises/{pais}', [PaisController::class, 'show'])->name('paises.show');

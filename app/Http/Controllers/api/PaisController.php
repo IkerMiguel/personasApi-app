@@ -49,9 +49,13 @@ class PaisController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        $pais = Pais::find($id);
+        if(is_null($pais)){
+            return abort(404);
+        }
+        return json_encode(['pais'=>$pais]);
     }
 
     /**
