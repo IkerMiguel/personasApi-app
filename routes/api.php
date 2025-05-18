@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\api\ComunaController;
+use App\Http\Controllers\api\DepartamentoController;
 use App\Http\Controllers\api\MunicipioController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -20,3 +21,5 @@ Route::get('municipios', [MunicipioController::class, 'index'])->name('municipio
 Route::delete('/municipios/{municipio}', [MunicipioController::class, 'destroy'])->name('municipios.destroy');
 Route::get('/municipios/{municipio}', [MunicipioController::class, 'show'])->name('municipios.show');
 Route::put('/municipios/{municipio}', [MunicipioController::class, 'update'])->name('municipios.update');
+
+Route::get('departamentos', [DepartamentoController::class, 'index'])->name('departamentos');
