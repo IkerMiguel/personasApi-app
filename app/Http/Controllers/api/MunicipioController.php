@@ -27,7 +27,25 @@ class MunicipioController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validate = Validator::make($request->all(),[
+            'muni_nomb' => ['required', 'max:30'],
+            'depa_codi' => ['required', 'numeric', 'min:1']
+        ]);
+
+        if($validate->fails()){
+            return response()->json([
+                'msg' => 'Se produjo un error en la validación de la información.',
+                'statusCode' => 400
+            ]);
+        }
+
+        $municipio = new Municipio();
+
+        $municipio->muni_nomb = $request->muni_nomb;
+        $municipio->depa_codi = $request->depa_codi;
+        $municipio->save();
+
+        return json_encode(['municipio'=>$municipio]);
     }
 
     /**
