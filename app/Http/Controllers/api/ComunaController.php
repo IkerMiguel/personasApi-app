@@ -65,9 +65,26 @@ class ComunaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $validate = Validator::make($request->all(),[
+            'comu_nomb' => ['required', 'max:30'],
+            'muni_codi' => ['required','numeric', 'min:1']
+        ]);
+        if ($validate->fails()){
+            return response()->json([
+                'msg' => 'Se produjo un error en la validación de la información.',
+                'statusCode' => 400
+            ]);
+        }
+        $comuna = Comuna::find($id);
+        if(is_null($comuna)){
+            return abort(404);
+        }
+        $comuna->comu_nomb = $request->comu_nomb;
+        $comuna->muni_codi = $request->muni_codi;
+        $comuna->save();
+        return json_encode(['comuna'=>$comuna]);
     }
 
     /**
