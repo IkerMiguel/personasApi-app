@@ -98,6 +98,6 @@ class PaisController extends Controller
         }
         $pais->delete();
         $paises = DB::table('tb_pais')->get();
-        return response()->json(['paises' => $paises]);
+        return response()->json(['paises' => $paises, 'success'=>true]);
     }
 }
