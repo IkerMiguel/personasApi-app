@@ -28,7 +28,7 @@ class ComunaController extends Controller
     public function store(Request $request)
     {
         $validate = Validator::make($request->all(),[
-            'comu_nomb' => ['required', 'max:30', 'unique' ],
+            'comu_nomb' => ['required', 'max:30' ],
             'muni_codi' => ['required','numeric', 'min:1']
         ]);
         if ($validate->fails()){
